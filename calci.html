@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Advanced Calculator</title>
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .calc-box {
+            width: 300px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        #display {
+            width: 100%;
+            height: 55px;
+            font-size: 26px;
+            text-align: right;
+            padding-right: 12px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        button {
+            height: 50px;
+            font-size: 20px;
+            border-radius: 8px;
+            border: none;
+        }
+
+        .top-btn {
+            background: #dcdcdc;
+        }
+
+        .op {
+            background: #ffb347;
+        }
+
+        .equal {
+            background: #6fcf97;
+        }
+        /* HISTORY POPUP */
+.history-popup {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    height: 350px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
+    padding: 15px;
+    display: none; /* hidden by default */
+    flex-direction: column;
+    z-index: 999;
+}
+
+.history-header {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.close-btn {
+    background: rgb(255, 80, 80);
+    border: none;
+    padding: 5px 10px;
+    border-radius: 6px;
+    color: white;
+    font-size: 16px;
+}
+
+.history-list {
+    margin-top: 10px;
+    height: 280px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.history-item {
+    padding: 8px;
+    background: #f2f2f2;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.history-item:hover {
+    background: #ddd;
+}
+
+    </style>
+</head>
+
+<body>
+
+    <h1>Advanced Calculator</h1>
+
+    <div class="calc-box">
+
+        <input type="text" id="display" disabled>
+
+        <!-- Line 1 -->
+        <div class="row">
+            <button class="top-btn" onclick="openHistory()">🕒</button>
+            <button class="top-btn" onclick="openUnitPopup()">📏</button>
+
+            <button class="top-btn" onclick="toggleScientific()">🧮</button>
+            <button class="top-btn" onclick="delChar()">⌫</button>
+        </div>
+<!-- SCIENTIFIC PANEL INSIDE CALC BOX -->
+<div id="sciPanel" class="sci-panel">
+
+    <div class="row sci-row">
+        <button onclick="toggleDegRad()" id="degRadBtn">DEG</button>
+        <button onclick="applyFunction('sqrt')">√x</button>
+        <button onclick="applyFunction('abs')">|x|</button>
+        <button onclick="pressConstant('pi')">π</button>
+    </div>
+
+    <div class="row sci-row">
+        <button onclick="applyTrig('sin')">sin</button>
+        <button onclick="applyTrig('cos')">cos</button>
+        <button onclick="applyTrig('tan')">tan</button>
+        <button onclick="pressConstant('e')">e</button>
+    </div>
+
+    <div class="row sci-row">
+        <button onclick="applyFunction('ln')">ln</button>
+        <button onclick="applyFunction('log')">log</button>
+        <button onclick="applyFunction('inverse')">1/x</button>
+    </div>
+
+    <div class="row sci-row">
+        <button onclick="applyFunction('exp')">eˣ</button>
+        <button onclick="applyFunction('square')">x²</button>
+        <button onclick="applyPower()">xʸ</button>
+    </div>
+
+</div>
+        <!-- Line 2 -->
+        <div class="row">
+            <button onclick="clr()">C</button>
+            <button onclick="pressBracket()">( )</button>
+            <button onclick="press('%')">%</button>
+            <button class="op" onclick="press('/')">÷</button>
+        </div>
+
+        <!-- Line 3 -->
+        <div class="row">
+            <button onclick="press('7')">7</button>
+            <button onclick="press('8')">8</button>
+            <button onclick="press('9')">9</button>
+            <button class="op" onclick="press('*')">×</button>
+        </div>
+
+        <!-- Line 4 -->
+        <div class="row">
+            <button onclick="press('4')">4</button>
+            <button onclick="press('5')">5</button>
+            <button onclick="press('6')">6</button>
+            <button class="op" onclick="press('-')">−</button>
+        </div>
+
+        <!-- Line 5 -->
+        <div class="row">
+            <button onclick="press('1')">1</button>
+            <button onclick="press('2')">2</button>
+            <button onclick="press('3')">3</button>
+            <button class="op" onclick="press('+')">+</button>
+        </div>
+
+        <!-- Line 6 -->
+        <div class="row">
+            <button onclick="toggleSign()">±</button>
+            <button onclick="press('0')">0</button>
+            <button onclick="press('.')">.</button>
+            <button class="equal" onclick="calculate()">=</button>
+        </div>
+        
+
+    </div>
+    <!-- HISTORY POPUP -->
+<div id="historyPopup" class="history-popup">
+    <div class="history-header">
+        <span>History</span>
+        <button class="close-btn" onclick="closeHistory()">✖</button>
+    </div>
+
+    <div id="historyList" class="history-list"></div>
+</div>
+<!-- UNIT CONVERTER POPUP -->
+<div id="unitPopup" class="history-popup">
+    <div class="history-header">
+        <span>Select Converter</span>
+        <button class="close-btn" onclick="closeUnitPopup()">✖</button>
+    </div>
+
+    <div class="unit-list">
+        <button class="unit-btn" onclick="window.location.href='length.html'">Length Converter</button>
+        <button class="unit-btn" onclick="window.location.href='weight.html'">Weight Converter</button>
+        <button class="unit-btn" onclick="window.location.href='temp.html'">Temperature Converter</button>
+    </div>
+</div>
+
+    <script src="js/calci.js"></script>
+
+    <script>
+        function delChar() {
+            let text = document.getElementById("display").value;
+            document.getElementById("display").value = text.slice(0, -1);
+        }
+
+        function toggleSign() {
+            let val = document.getElementById("display").value;
+            if (val.startsWith("-")) {
+                document.getElementById("display").value = val.substring(1);
+            } else {
+                document.getElementById("display").value = "-" + val;
+            }
+        }
+    </script>
+
+</body>
+</html>
