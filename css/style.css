@@ -1,0 +1,190 @@
+/* Global page theme */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: #eaeaea; /* softer grey like calc-box theme */
+    padding: 30px;
+    margin: 0;
+}
+
+h1 {
+    margin-bottom: 25px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Home page buttons */
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 300px;
+    margin: auto;
+}
+
+.btn {
+    background: #4a4a4a;
+    color: white;
+    padding: 14px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 18px;
+    transition: 0.2s;
+}
+
+.btn:hover {
+    background: #000;
+}
+
+/* Calculator and converter box */
+.calc, .box, .calc-box {
+    width: 300px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 3px 10px rgba(0,0,0,0.1);
+}
+
+/* Display box for calculator */
+#display {
+    display: block;
+    margin: 0 auto 15px auto;
+    width: 100%;
+    max-width: 300px;
+        /* ✅ ensures same width as 4 buttons including gaps */
+    height: 55px;
+    font-size: 26px;
+    text-align: right;
+    padding-right: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;  /* ensures padding doesn’t stretch width */
+}
+.calc-box {
+    width: fit-content;      /* ✅ shrink box to content (buttons + display) */
+    margin: 0 auto;          /* ✅ center entire calculator horizontally */
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+
+
+
+
+/* For length, temp, weight converters */
+input[type="number"] {
+    width: 90%;
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.box button {
+    margin-top: 10px;
+    width: 100%;
+    padding: 12px;
+    background: #4a90e2;
+    color: white;
+    border-radius: 8px;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+}
+
+/* General button styling */
+button {
+    cursor: pointer;
+    background: #dcdcdc;      /* ✅ unified base color */
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+}
+button:hover {
+    background: #cfcfcf;      /* ✅ subtle hover effect */
+}
+/* Calculator grid rows */
+.row button {
+    height: 50px;
+    font-size: 20px;
+}
+
+/* Special buttons */
+.top-btn {
+    background: #dcdcdc;      /* matches the rest for consistency */
+}
+
+.op {
+    background: #ffb347;      /* keep operators orange */
+}
+
+.equal {
+    background: #6fcf97;
+}
+
+/* Clear button for old calculator layout */
+.full {
+    width: 100%;
+    background: red;
+    color: white;
+}
+
+/* Result display text for converters */
+#result {
+    margin-top: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+.unit-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.unit-btn {
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 18px;
+    border: none;
+    background: #4a90e2;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.unit-btn:hover {
+    background: #2d6fba;
+}
+.sci-panel {
+    display: none;
+    margin-bottom: 15px;
+}
+
+.sci-panel .row button {
+    background: #dcdcdc;
+    height: 45px;
+    font-size: 18px;
+}
+/* Hidden by default */
+.sci-panel {
+    display: none;
+    margin-bottom: 10px;
+}
+
+.sci-row button {
+    height: 40px !important;
+    font-size: 16px;
+    background: #eeeeee;
+}
+.sci-panel .row button,
+.sci-row button {
+    height: 45px;
+    font-size: 18px;
+    background: #dcdcdc;      /* ✅ unified with normal buttons */
+}
