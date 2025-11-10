@@ -6,7 +6,7 @@ function press(val) {
         document.getElementById("display").value += "−";
     }
     else if (val === "*") {
-        document.getElementById("display").value += "×";  // SMALL multiply sign
+        document.getElementById("display").value += "×";
     }
     else {
         document.getElementById("display").value += val;
@@ -15,15 +15,12 @@ function press(val) {
 
 function calculate() {
     let exp = document.getElementById("display").value;
-
-    // Scientific symbol conversions
 exp = exp.replace(/π/g, "Math.PI");
 exp = exp.replace(/e/g, "Math.E");
 exp = exp.replace(/×/g, "*");
 exp = exp.replace(/÷/g, "/");
 exp = exp.replace(/−/g, "-");
 
-// x^y support
 exp = exp.replace(/(\d+)\^(\d+)/g, "Math.pow($1,$2)");
 
 
@@ -31,7 +28,7 @@ exp = exp.replace(/(\d+)\^(\d+)/g, "Math.pow($1,$2)");
         let result = eval(exp);
         document.getElementById("display").value = result;
 
-        saveHistory(exp, result);  // ✅ SAVE HISTORY HERE
+        saveHistory(exp, result);
     } catch {
         document.getElementById("display").value = "Error";
     }
@@ -79,45 +76,34 @@ function clr() {
 document.addEventListener("keydown", function(event) {
     const key = event.key;
 
-    // Numbers
     if (!isNaN(key)) {
         press(key);
     }
 
-    // Decimal
     if (key === ".") {
         press(".");
     }
-
-    // Basic operators
     if (key === "+") press("+");
     if (key === "-") press("-");
-    if (key === "*") press("*"); // will display ×
-    if (key === "/") press("/"); // will display ÷
-
-    // Brackets
+    if (key === "*") press("*");
+    if (key === "/") press("/");
     if (key === "(") press("(");
     if (key === ")") press(")");
-
-    // Enter → equals
     if (key === "Enter") {
         calculate();
     }
 
-    // Backspace → delete one char
     if (key === "Backspace") {
         delChar();
     }
 
-    // Escape → clear all
     if (key === "Escape" || key.toLowerCase() === "c") {
         clr();
     }
 
-    // Prevent triggers like page scrolling when pressing spacebar
     event.preventDefault();
 });
-let openBracket = true;  // track whether next bracket is "(" or ")"
+let openBracket = true;
 
 function pressBracket() {
     if (openBracket) {
@@ -125,7 +111,7 @@ function pressBracket() {
     } else {
         document.getElementById("display").value += ")";
     }
-    openBracket = !openBracket; // toggle between ( and )
+    openBracket = !openBracket;
 }
 function delChar() {
     let display = document.getElementById("display");
@@ -134,9 +120,6 @@ function delChar() {
     if (text.length === 0) return;
 
     let last = text[text.length - 1];
-
-    // if last removed was "(" then next should be "("  
-    // if last removed was ")" then next should be ")"  
     if (last === "(") openBracket = true;
     if (last === ")") openBracket = false;
 
@@ -189,7 +172,7 @@ function applyTrig(type) {
 
     let num = parseFloat(val);
 
-    if (isDeg) num = num * Math.PI / 180; // convert DEG → RAD
+    if (isDeg) num = num * Math.PI / 180;
 
     switch (type) {
         case "sin": document.getElementById("display").value = Math.sin(num); break;
